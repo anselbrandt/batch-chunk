@@ -1,5 +1,6 @@
 import os
 import logging
+import sqlite3
 
 import chromadb
 from chromadb.utils import embedding_functions
@@ -32,6 +33,8 @@ except:
         name="roderick", embedding_function=sentence_transformer_ef
     )
 
+ROOT = os.getcwd()
+
 rotl_titles = titlesDict("rotl_titles.txt")
 rotl_dates = datesDict("rotl_dates.txt")
 roadwork_titles = titlesDict("roadwork_titles.txt")
@@ -44,14 +47,8 @@ titles = {
     "omnibus": omnibus["titles"],
 }
 
-ROOT = os.getcwd()
 
 chunkedDir = os.path.join(ROOT, "chunked")
-
-import sqlite3
-
-
-import sqlite3
 
 
 def getChunks(filepath, show, episode):

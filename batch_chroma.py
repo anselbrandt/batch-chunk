@@ -1,4 +1,5 @@
 import os
+import json
 import logging
 import sqlite3
 
@@ -74,7 +75,10 @@ def getChunks(filepath, show, episode):
             )
             for line in chunk.split("\n")
         ]
-        wavfiles = [f"{speaker}|{wav_dict[idx]}" for idx, speaker, speech in lines]
+        wavfiles = [
+            {"speaker": speaker, "speech": speech, "wavfile": wav_dict[idx]}
+            for idx, speaker, speech in lines
+        ]
 
         chunk_speech = " ".join([speech for idx, speaker, speech in lines])
         all_speech.append(chunk_speech)
@@ -103,7 +107,7 @@ for filepath, show, filename in chunked_files:
             "episode": episode,
             "title": title,
             "date": date,
-            "wavfiles": ",".join(wavfiles[i]),
+            "wavfiles": json.dumps(wavfiles[i]),
         }
         for i, chunk in enumerate(chunks)
     ]

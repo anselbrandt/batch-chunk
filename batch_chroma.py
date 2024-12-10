@@ -51,6 +51,9 @@ chunkedDir = os.path.join(ROOT, "chunked")
 import sqlite3
 
 
+import sqlite3
+
+
 def getChunks(filepath, show, episode):
     conn = sqlite3.connect("transcripts.db")
     c = conn.cursor()
@@ -74,7 +77,7 @@ def getChunks(filepath, show, episode):
             )
             for line in chunk.split("\n")
         ]
-        wavfiles = [(speaker, wav_dict[idx]) for idx, speaker, speech in lines]
+        wavfiles = [f"{speaker}|{wav_dict[idx]}" for idx, speaker, speech in lines]
 
         chunk_speech = " ".join([speech for idx, speaker, speech in lines])
         all_speech.append(chunk_speech)
@@ -99,13 +102,13 @@ for filepath, show, filename in chunked_files:
     metadatas = [
         {
             "podcast": show,
-            "hosts": hosts[show],
+            "hosts": ",".join(hosts[show]),
             "episode": episode,
             "title": title,
             "date": date,
-            "wavfiles": wavfiles[i],
+            "wavfiles": ",".join(wavfiles[i]),
         }
-        for i in enumerate(chunks)
+        for i, chunk in enumerate(chunks)
     ]
     ids = [f"{show}_{episode}_{i}" for i, chunk in enumerate(chunks)]
     collection.add(documents=documents, metadatas=metadatas, ids=ids)

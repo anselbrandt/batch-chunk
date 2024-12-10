@@ -1,0 +1,6 @@
+__pycache__/
+chunked/
+clean_labeled/
+logs.txt
+.env
+*.db

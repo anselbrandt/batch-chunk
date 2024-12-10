@@ -1,0 +1,6 @@
+chromadb
+sentence-transformers
+semantic-router
+python-dotenv
+ipykernel
+ipywidgets
